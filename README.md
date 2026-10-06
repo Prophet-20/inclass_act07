@@ -31,4 +31,9 @@ notifications, customization, and learning outcomes. Asset provenance is in
 timers, outcomes, and integration into the main screen. The combined
 undergraduate app needs one additional advanced feature beyond this bundle.
 
-[Component test results](docs/PET_PERSONALITY_TEST_RESULTS.md): analysis passed and all 9 tests passed.
+[Component test results](docs/PET_PERSONALITY_TEST_RESULTS.md): analysis passed and all 13 tests passed.
+
+`PetCareView` now supplies a reusable screen body with care-action callbacks and
+pet-name confirmation. It is adapted to the Team 1 PR #1 state interface. The
+care implementation and combined main.dart are deliberately outside this PR.
+See the integration guide for the exact connection snippet.

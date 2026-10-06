@@ -2,6 +2,35 @@
 
 This is the personality portion, plus a preview harness. Team 1 remains the owner of the real name, happiness, hunger, optional energy, care actions, timers, and outcomes. There are no care rules or win timers in this component.
 
+## Connect to Team 1 PR 1
+
+`PetCareView` is the recommended screen body for the care implementation in PR #1 (`7c25e45`). It includes the personality panel, Feed/Play/Reset buttons, and a confirmed pet-name field. It calls the care layer through callbacks and never implements meter changes, hunger timing, win/loss rules, or reset rules.
+
+In the partner's State, add `String _petName = 'Pip';`, `PetAction? _personalityLastAction;`, and integer revision fields initialized to zero as shown below. Replace the placeholder body with:
+
+```dart
+PetCareView(
+  pet: PetSnapshot(
+    name: _petName,
+    happiness: _happiness,
+    hunger: _hunger,
+    outcome: _gameOver ? PetOutcome.lost
+        : _hasWon ? PetOutcome.won : PetOutcome.playing,
+  ),
+  onFeed: _feedPet,
+  onPlay: _playPet,
+  onReset: _resetPet,
+  onNameConfirmed: (name) => setState(() => _petName = name),
+  lastAction: _personalityLastAction,
+  actionRevision: _personalityActionRevision,
+  sessionRevision: _personalitySessionRevision,
+)
+```
+
+Use the accepted-action and reset revision updates below. The view already provides SafeArea, scrolling, a width constraint, and name-controller disposal. The host only owns the confirmed name. Keep the same widget key across ordinary updates. Do not wrap it in another vertical scroll view without a bounded height.
+
+`paused` and `onTogglePause` are optional presentation inputs. If Team 1 implements Session controls, pass both and increment `sessionRevision` whenever pausing to clear visual reactions. The button alone does not implement session control or earn a second advanced feature. Team 1 still owns cancellation/resumption of gameplay timers. Without the callback, no Pause/Resume button is shown.
+
 ## Copy into the combined project
 
 1. Copy `lib/pet_personality/` into your partner's `lib/` folder.
